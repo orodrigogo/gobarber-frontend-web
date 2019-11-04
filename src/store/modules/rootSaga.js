@@ -4,6 +4,7 @@
 import { all } from "redux-saga/effects";
 
 import auth from "./auth/sagas";
+import user from "./user/sagas";
 
 /*
   A declaração function* (palavra chave function seguida de um asterisco)
@@ -13,5 +14,5 @@ import auth from "./auth/sagas";
 
 export default function* rootSaga() {
   // Dentro vamos ter todos os Sagas, em que, os Sagas capturam todas as Actions que definirmos.
-  return yield all([auth]);
+  return yield all([auth, user]);
 }

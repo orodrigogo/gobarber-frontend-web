@@ -2,8 +2,8 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import AuthLayout from "../pages/_layouts/auth";
-import DefaultLayout from "../pages/_layouts/default";
+import AuthLayout from "~/pages/_layouts/auth"; // Graças ao RootImport, podemos utilizar o sinal de til para que ele parta sempre da pasta src conforme configurado no config.overrides.js na raiz do projeto.
+import DefaultLayout from "~/pages/_layouts/default";
 
 export default function RouterWrapper({
   component: Component,

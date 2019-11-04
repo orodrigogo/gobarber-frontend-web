@@ -16,5 +16,12 @@ export default (reducers, middlewares) => {
         )
       : applyMiddleware(...middlewares);
 
+  /*
+    Cria uma Redux Store que contém a árvore de estados completa da aplicação (só deve haver uma única store na aplicação).
+    Argumentos:
+    #reducer (função): estados atual da aplicação a ser manipulada.
+    #enhancer (Função) : o aprimorador da loja (opcional). Você pode especificá-lo para aprimorar a loja com recursos de
+    terceiros, como middleware. O único aprimorador de loja que acompanha o Redux é applyMiddleware().
+  */
   return createStore(reducers, enhancer);
 };

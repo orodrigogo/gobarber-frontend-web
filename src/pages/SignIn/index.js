@@ -1,8 +1,13 @@
 import React from "react";
+// useDispatch é utilizada para disparar uma Action no redux.
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Form, Input } from "@rocketseat/unform";
 import * as Yup from "yup";
 import logo from "~/assets/logo.svg";
+
+// A função que a tela de login tem que disparar para que o Saga escute/capture ela.
+import { signInRequest } from "~/store/modules/auth/actions";
 
 // Criando o schema de validação do Yup.
 const schema = Yup.object().shape({
@@ -13,8 +18,12 @@ const schema = Yup.object().shape({
 });
 
 export default function SignIn() {
-  function handleSubmit(data) {
-    console.tron.log(data);
+  // Inicializa o useDispatch.
+  const dispath = useDispatch();
+
+  function handleSubmit({ email, password }) {
+    // Dispara a Action signInRequest passando email e password como parametros.
+    dispath(signInRequest(email, password));
   }
 
   return (

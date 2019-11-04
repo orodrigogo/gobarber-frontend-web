@@ -4,7 +4,7 @@ import createStore from "./createStore";
 import rooReducer from "./modules/rootReducer";
 import rootSaga from "./modules/rootSaga";
 
-// sagaMonitor, para capturar todas as Actions disparadas em ambiente de desenvolvimento.
+// sagaMonitor, para capturar todas as Actions disparadas em ambiente de desenvolvimento. Usado pelo middleware para despachar eventos de monitoramento.
 const sagaMonitor =
   process.env.NODE_ENV === "development"
     ? console.tron.createSagaMonitor()

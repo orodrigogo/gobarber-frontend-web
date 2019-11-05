@@ -13,7 +13,7 @@
   #all: cria uma descrição de efeito que instrui o middleware a executar vários efeitos em paralelo e aguarde a conclusão de todos eles.
 
 */
-
+import { toast } from "react-toastify";
 import { takeLatest, call, put, all } from "redux-saga/effects";
 import history from "~/services/history";
 import api from "~/services/api";
@@ -34,7 +34,7 @@ export function* signIn({ payload }) {
 
     // Verificando se o usuário é um prestador de servico.
     if (!user.provider) {
-      console.tron.error("Usuário não é prestador de serviço!");
+      toast.error("Usuário não é prestador de serviço!");
       return;
     }
 
@@ -45,6 +45,7 @@ export function* signIn({ payload }) {
     history.push("/dashboard");
   } catch (error) {
     // Chama a Action signFailure
+    toast.error("Falha na autenticação, verifique seus dados");
     yield put(signFailure());
   }
 }

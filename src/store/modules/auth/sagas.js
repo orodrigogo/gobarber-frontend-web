@@ -83,10 +83,15 @@ export function setToken({ payload }) {
   }
 }
 
+export function signOut() {
+  history.push("/");
+}
+
 export default all([
   // Toda vez que o takeLatest ouvir a informação '@auth/SIGN_IN_REQUEST ele vai chamar a função signIn. Ou seja, definimos a Action e qual ação deverá ser disparada.
   takeLatest("@auth/SIGN_IN_REQUEST", signIn),
   takeLatest("@auth/SIGN_UP_REQUEST", signUp),
   /* A Action persist/REHYDRATE é disparada automaticamente pelo Persist Redux quando os dados do localstoraged são recuperados */
-  takeLatest("persist/REHYDRATE", setToken)
+  takeLatest("persist/REHYDRATE", setToken),
+  takeLatest("@auth/SIGN_OUT", signOut)
 ]);

@@ -38,6 +38,9 @@ export function* signIn({ payload }) {
       return;
     }
 
+    // Armazenando no axios, no cabecalho das requisicoes o token do usuário.
+    api.defaults.headers.Authorization = `Bearer ${token}`;
+
     // Chama a Action signInSucess da action do auth. E usamos o yield para aguardar o retorno.
     yield put(signInSucess(token, user));
 
@@ -69,8 +72,21 @@ export function* signUp({ payload }) {
   }
 }
 
+export function setToken({ payload }) {
+  if (!payload) return;
+
+  const { token } = payload.auth;
+
+  if (token) {
+    // Caso o usuário dê F5 ou atualize a pagina, recuperamos o token e Armazenando no axios, no cabecalho das requisicoes o token do usuário.
+    api.defaults.headers.Authorization = `Bearer ${token}`;
+  }
+}
+
 export default all([
   // Toda vez que o takeLatest ouvir a informação '@auth/SIGN_IN_REQUEST ele vai chamar a função signIn. Ou seja, definimos a Action e qual ação deverá ser disparada.
   takeLatest("@auth/SIGN_IN_REQUEST", signIn),
-  takeLatest("@auth/SIGN_UP_REQUEST", signUp)
+  takeLatest("@auth/SIGN_UP_REQUEST", signUp),
+  /* A Action persist/REHYDRATE é disparada automaticamente pelo Persist Redux quando os dados do localstoraged são recuperados */
+  takeLatest("persist/REHYDRATE", setToken)
 ]);

@@ -9,13 +9,21 @@ const INITIAL_STATE = {
   Mas pode ouvir action de outros modulos. Como é o caso abaixo, que escuta uma Action de Auth.
 */
 export default function user(state = INITIAL_STATE, action) {
-  switch (action.type) {
-    // Manipulação quando a Action @auth/SIGN_IN_SUCCESS for disparada.
-    case "@auth/SIGN_IN_SUCCESS":
-      return produce(state, draft => {
+  return produce(state, draft => {
+    switch (action.type) {
+      // Manipulação quando a Action @auth/SIGN_IN_SUCCESS for disparada.
+      case "@auth/SIGN_IN_SUCCESS": {
         draft.profile = action.payload.user;
-      });
-    default:
-      return state;
-  }
+        break;
+      }
+
+      case "@user/UPDATE_PROFILE_SUCCESS": {
+        draft.profile = action.payload.profile;
+        break;
+      }
+
+      default:
+        return state;
+    }
+  });
 }

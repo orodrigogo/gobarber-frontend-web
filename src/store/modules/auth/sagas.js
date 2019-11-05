@@ -8,7 +8,7 @@
 
   #call: cria uma descrição Efeito que instrui o middleware para chamar a função.
 
-  #put: cria uma descrição de efeito que instrui o middleware a colocar uma ação no canal fornecido.
+  #put: dispara uma Action.
 
   #all: cria uma descrição de efeito que instrui o middleware a executar vários efeitos em paralelo e aguarde a conclusão de todos eles.
 
@@ -17,31 +17,36 @@
 import { takeLatest, call, put, all } from "redux-saga/effects";
 import history from "~/services/history";
 import api from "~/services/api";
-import { signInSucess } from "./actions";
+import { signInSucess, signFailure } from "./actions";
 
 export function* signIn({ payload }) {
-  const { email, password } = payload;
+  try {
+    const { email, password } = payload;
 
-  /*
-    Call retorna uma promisse, por isso usamos o yield.
-    Primeiro parametro é método, segundo a url, terceiro os dados que queremos enviar.
+    /*
+      Call retorna uma promisse, por isso usamos o yield.
+      Primeiro parametro é método, segundo a url, terceiro os dados que queremos enviar.
 
-  */
-  const response = yield call(api.post, "sessions", { email, password });
+    */
+    const response = yield call(api.post, "sessions", { email, password });
 
-  const { token, user } = response.data;
+    const { token, user } = response.data;
 
-  // Verificando se o usuário é um prestador de servico.
-  if (!user.provider) {
-    console.tron.error("Usuário não é prestador de serviço!");
-    return;
+    // Verificando se o usuário é um prestador de servico.
+    if (!user.provider) {
+      console.tron.error("Usuário não é prestador de serviço!");
+      return;
+    }
+
+    // Chama a Action signInSucess da action do auth. E usamos o yield para aguardar o retorno.
+    yield put(signInSucess(token, user));
+
+    // Redireciona para a página dashboard.
+    history.push("/dashboard");
+  } catch (error) {
+    // Chama a Action signFailure
+    yield put(signFailure());
   }
-
-  // Chama a Action signInSucess da action do auth. E usamos o yield para aguardar o retorno.
-  yield put(signInSucess(token, user));
-
-  // Redireciona para a página dashboard.
-  history.push("/dashboard");
 }
 
 export default all([

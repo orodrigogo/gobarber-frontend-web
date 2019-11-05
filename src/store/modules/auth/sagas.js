@@ -50,7 +50,27 @@ export function* signIn({ payload }) {
   }
 }
 
+export function* signUp({ payload }) {
+  try {
+    const { name, email, password } = payload;
+
+    yield call(api.post, "users", {
+      name,
+      email,
+      password,
+      provider: true
+    });
+
+    history.push("/");
+  } catch (error) {
+    toast.error("Falha no cadastro, verifique seu dados!");
+
+    yield put(signFailure());
+  }
+}
+
 export default all([
   // Toda vez que o takeLatest ouvir a informação '@auth/SIGN_IN_REQUEST ele vai chamar a função signIn. Ou seja, definimos a Action e qual ação deverá ser disparada.
-  takeLatest("@auth/SIGN_IN_REQUEST", signIn)
+  takeLatest("@auth/SIGN_IN_REQUEST", signIn),
+  takeLatest("@auth/SIGN_UP_REQUEST", signUp)
 ]);

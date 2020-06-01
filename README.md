@@ -1,8 +1,9 @@
-# Documentação do Frontend Gobarber
+<h3 align="center">
+  Gobarber 
+</h3>
 
-Versão web destinada aos prestadores de serviço. Os clientes, poderam utilizar e fazer agendamentos somente pela versão mobile.
+Versão web destinada aos prestadores de serviço para acompanhar e gerenciar os dias ae horários das reservas e agendamentos dos clientes. 
+Os clientes, por sua vez, utilizar a versão mobile (disponível para Android e iOS) para fazer agendamentos e reservas.
 
-
-# Demonstração da Interface
 
 ![Alt Text](demonstracao_interface_web_gobarber.gif)
